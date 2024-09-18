@@ -1,3 +1,3 @@
-﻿global using Catalog.Products.Events;
+﻿global using Shared.DDD;
 global using Catalog.Products.Models;
-global using Shared.Primitives;
+global using Catalog.Products.Events;
