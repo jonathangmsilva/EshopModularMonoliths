@@ -8,7 +8,7 @@ public class CatalogDbContext : DbContext
   {
   }
 
-  DbSet<Product> Products => Set<Product>();
+  public DbSet<Product> Products => Set<Product>();
 
   protected override void OnModelCreating(ModelBuilder builder)
   {

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Catalog.Data.Seed;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Data;
+using Shared.Data.Seed;
 
 namespace Catalog;
 public static class CatalogModule
@@ -17,7 +19,7 @@ public static class CatalogModule
       options.UseNpgsql(connectionString);
     });
 
-
+    services.AddScoped<IDataSeeder, CatalogDataSeeder>();
 
     return services;
   }
