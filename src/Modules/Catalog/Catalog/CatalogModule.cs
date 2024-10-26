@@ -1,8 +1,11 @@
-﻿using Catalog.Data.Seed;
+﻿using System.Reflection;
+using Catalog.Data.Seed;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Data;
+using Shared.Data.Interceptors;
 using Shared.Data.Seed;
 
 namespace Catalog;
@@ -13,9 +16,20 @@ public static class CatalogModule
   {
     // Add services to the container.
 
-    var connectionString = configuration.GetConnectionString("Database");
-    services.AddDbContext<CatalogDbContext>(options =>
+    services.AddMediatR(config =>
     {
+      config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    });
+    
+    
+    var connectionString = configuration.GetConnectionString("Database");
+
+    services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+    services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+    
+    services.AddDbContext<CatalogDbContext>((sp,options) =>
+    {
+      options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
       options.UseNpgsql(connectionString);
     });
 
