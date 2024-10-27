@@ -15,7 +15,7 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
 
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
         InterceptionResult<int> result,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         UpdateEntities(eventData.Context);
         return base.SavingChangesAsync(eventData, result, cancellationToken);
@@ -46,10 +46,12 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
 
 public static class Extensions
 {
-    public static bool HasChangedOwnedEntities(this EntityEntry entityEntry) =>
-        entityEntry.References.Any(r => r.TargetEntry != null &&
-                                        r.TargetEntry.Metadata.IsOwned() &&
-                                        (r.TargetEntry.State == EntityState.Added ||
-                                         r.TargetEntry.State == EntityState.Modified)
+    public static bool HasChangedOwnedEntities(this EntityEntry entityEntry)
+    {
+        return entityEntry.References.Any(r => r.TargetEntry != null &&
+                                               r.TargetEntry.Metadata.IsOwned() &&
+                                               (r.TargetEntry.State == EntityState.Added ||
+                                                r.TargetEntry.State == EntityState.Modified)
         );
+    }
 }

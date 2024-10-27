@@ -9,46 +9,43 @@ using Shared.Data.Interceptors;
 using Shared.Data.Seed;
 
 namespace Catalog;
+
 public static class CatalogModule
 {
-  public static IServiceCollection AddCatalogModule(this IServiceCollection services,
-      IConfiguration configuration)
-  {
-    // Add services to the container.
-
-    services.AddMediatR(config =>
+    public static IServiceCollection AddCatalogModule(this IServiceCollection services,
+        IConfiguration configuration)
     {
-      config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-    });
-    
-    
-    var connectionString = configuration.GetConnectionString("Database");
+        // Add services to the container.
 
-    services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-    services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
-    
-    services.AddDbContext<CatalogDbContext>((sp,options) =>
+        services.AddMediatR(config => { config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()); });
+
+
+        var connectionString = configuration.GetConnectionString("Database");
+
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+
+        services.AddDbContext<CatalogDbContext>((sp, options) =>
+        {
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+            options.UseNpgsql(connectionString);
+        });
+
+        services.AddScoped<IDataSeeder, CatalogDataSeeder>();
+
+        return services;
+    }
+
+    public static IApplicationBuilder UseCatalogModule(this IApplicationBuilder app)
     {
-      options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-      options.UseNpgsql(connectionString);
-    });
+        // Configure the HTTP request pipeline.
+        //app
+        //    .UseApplicationServices()
+        //    .UseInfrastructureServices()
+        //    .UseApiServices();
 
-    services.AddScoped<IDataSeeder, CatalogDataSeeder>();
+        app.UseMigration<CatalogDbContext>();
 
-    return services;
-  }
-
-  public static IApplicationBuilder UseCatalogModule(this IApplicationBuilder app)
-  {
-    // Configure the HTTP request pipeline.
-    //app
-    //    .UseApplicationServices()
-    //    .UseInfrastructureServices()
-    //    .UseApiServices();
-
-    app.UseMigration<CatalogDbContext>();
-
-    return app;
-  }
-
+        return app;
+    }
 }
