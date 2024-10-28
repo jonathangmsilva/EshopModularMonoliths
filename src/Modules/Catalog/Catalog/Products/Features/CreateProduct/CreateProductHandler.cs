@@ -1,5 +1,4 @@
-﻿using Catalog.Products.Dtos;
-using Shared.CQRS;
+﻿using Shared.CQRS;
 
 namespace Catalog.Products.Features.CreateProduct;
 
