@@ -16,7 +16,10 @@ public static class CatalogModule
     {
         // Add services to the container.
 
-        services.AddMediatR(config => { config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()); });
+        services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        });
 
 
         var connectionString = configuration.GetConnectionString("Database");
