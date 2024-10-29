@@ -9,11 +9,12 @@ public class GetProductByIdHandler(CatalogDbContext dbContext)
 {
     public async Task<GetProductByIdResult> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
-        var product = await dbContext.Products.AsNoTracking()
+        var product = await dbContext.Products
+            .AsNoTracking()
             .SingleOrDefaultAsync(p => p.Id == request.ProductId, cancellationToken);
 
         if (product is null)
-            throw new Exception($"Product with id: {request.ProductId} was not found");
+            throw new ProductNotFoundException(request.ProductId);
 
         var productDto = product.Adapt<ProductDto>();
 

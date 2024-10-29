@@ -11,6 +11,7 @@ public class DeleteProductCommandValidator : AbstractValidator<DeleteProductComm
         RuleFor(x => x.ProductId).NotEmpty().WithMessage("Product Id cannot be empty");
     }
 }
+
 public class DeleteProductHandler(CatalogDbContext dbContext)
     : ICommandHandler<DeleteProductCommand, DeleteProductResult>
 {
@@ -18,7 +19,7 @@ public class DeleteProductHandler(CatalogDbContext dbContext)
     {
         var product = await dbContext.Products.FindAsync([request.ProductId], cancellationToken);
         if (product is null)
-            throw new InvalidOperationException($"Product with id {request.ProductId} was not found");
+            throw new ProductNotFoundException(request.ProductId);
 
         dbContext.Products.Remove(product);
         await dbContext.SaveChangesAsync(cancellationToken);

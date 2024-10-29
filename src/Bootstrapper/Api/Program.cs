@@ -1,7 +1,6 @@
-using Carter;
-using Shared.Extensions;
-
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddCarterWithAssemblies(typeof(CatalogModule).Assembly);
 
@@ -11,13 +10,18 @@ builder.Services
     .AddBasketModule(builder.Configuration)
     .AddOrderingModule(builder.Configuration);
 
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 app.MapCarter();
-// Configure the HTTP request pipeline.
+app.UseSerilogRequestLogging();
+app.UseExceptionHandler(options => { });
+
 app
     .UseCatalogModule()
     .UseBasketModule()
     .UseOrderingModule();
+
 
 app.Run();

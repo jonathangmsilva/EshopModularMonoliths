@@ -4,7 +4,7 @@ public record UpdateProductCommand(ProductDto Product) : ICommand<UpdateProductR
 
 public record UpdateProductResult(bool IsSuccess);
 
-public class  UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {
     public UpdateProductCommandValidator()
     {
@@ -20,7 +20,7 @@ public class UpdateProductHandler(CatalogDbContext dbContext)
     public async Task<UpdateProductResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         var product = await dbContext.Products.FindAsync(request.Product.Id, cancellationToken);
-        if (product is null) throw new Exception($"Product with Id: {request.Product.Id} does not exist");
+        if (product is null) throw new ProductNotFoundException(request.Product.Id);
 
         UpdateProductWithNewValues(product, request.Product);
 
