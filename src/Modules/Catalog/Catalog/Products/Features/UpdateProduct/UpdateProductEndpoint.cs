@@ -18,7 +18,7 @@ public class UpdateProductEndpoint : ICarterModule
 
                 return Results.Ok(response);
             }).WithName("UpdateProduct")
-            .Produces<UpdateProductResponse>(StatusCodes.Status200OK)
+            .Produces<UpdateProductResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Update Product")

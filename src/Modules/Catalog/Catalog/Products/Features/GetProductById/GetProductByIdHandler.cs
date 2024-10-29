@@ -1,6 +1,4 @@
-﻿using Shared.CQRS;
-
-namespace Catalog.Products.Features.GetProductById;
+﻿namespace Catalog.Products.Features.GetProductById;
 
 public record GetProductByIdResult(ProductDto Product);
 

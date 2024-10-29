@@ -1,6 +1,4 @@
-﻿using Shared.CQRS;
-
-namespace Catalog.Products.Features.UpdateProduct;
+﻿namespace Catalog.Products.Features.UpdateProduct;
 
 public record UpdateProductCommand(ProductDto Product) : ICommand<UpdateProductResult>;
 

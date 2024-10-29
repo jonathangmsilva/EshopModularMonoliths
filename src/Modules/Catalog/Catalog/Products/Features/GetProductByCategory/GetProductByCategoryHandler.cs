@@ -1,6 +1,4 @@
-﻿using Shared.CQRS;
-
-namespace Catalog.Products.Features.GetProductByCategory;
+﻿namespace Catalog.Products.Features.GetProductByCategory;
 
 public record GetProductByCategoryQuery(string Category) : IQuery<GetProductByCategoryResult>;
 
