@@ -2,13 +2,6 @@
 
 public class ShoppingCartItem : Entity<Guid>
 {
-    public Guid ShoppingCartId { get; private set; } = default!;
-    public Guid ProductId { get; private set; } = default!;
-    public int Quantity { get; internal set; } = default!;
-    public string Color { get; private set; }
-    public decimal Price { get; private set; } = default!;
-    public string ProductName { get; private set; }
-
     internal ShoppingCartItem(Guid shoppingCartId, Guid productId, int quantity, string color, decimal price,
         string productName)
     {
@@ -19,4 +12,11 @@ public class ShoppingCartItem : Entity<Guid>
         Price = price;
         ProductName = productName;
     }
+
+    public Guid ShoppingCartId { get; private set; }
+    public Guid ProductId { get; private set; }
+    public int Quantity { get; internal set; }
+    public string Color { get; private set; }
+    public decimal Price { get; private set; }
+    public string ProductName { get; private set; }
 }
