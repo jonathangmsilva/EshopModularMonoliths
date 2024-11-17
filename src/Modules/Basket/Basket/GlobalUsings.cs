@@ -13,3 +13,7 @@ global using FluentValidation;
 global using Shared.CQRS;
 global using Basket.Basket.Exeptions;
 global using Mapster;
+global using Carter;
+global using MediatR;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Routing;

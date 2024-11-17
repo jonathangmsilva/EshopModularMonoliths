@@ -1,6 +1,6 @@
 ﻿namespace Basket.Basket.Dtos;
 
-public record ShoopingCartItemDto(
+public record ShoppingCartItemDto(
     Guid Id,
     Guid ShoppingCartId,
     Guid ProductId,

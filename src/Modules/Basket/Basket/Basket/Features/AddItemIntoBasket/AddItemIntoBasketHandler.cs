@@ -1,6 +1,6 @@
 ﻿namespace Basket.Basket.Features.AddItemIntoBasket;
 
-public record AddItemIntoBasketCommand(string UserName, ShoopingCartItemDto ShoopingCartItem)
+public record AddItemIntoBasketCommand(string UserName, ShoppingCartItemDto ShoppingCartItem)
     : ICommand<AddItemIntoBasketResult>;
 
 public record AddItemIntoBasketResult(Guid Id);
@@ -10,8 +10,8 @@ public class AddItemIntoBasketCommandValidator : AbstractValidator<AddItemIntoBa
     public AddItemIntoBasketCommandValidator()
     {
         RuleFor(x => x.UserName).NotEmpty().WithMessage("UserName is required");
-        RuleFor(x => x.ShoopingCartItem.ProductId).NotEmpty().WithMessage("ProductId is required");
-        RuleFor(x => x.ShoopingCartItem.Quantity).GreaterThan(0).WithMessage("Quantity should be greater than 0");
+        RuleFor(x => x.ShoppingCartItem.ProductId).NotEmpty().WithMessage("ProductId is required");
+        RuleFor(x => x.ShoppingCartItem.Quantity).GreaterThan(0).WithMessage("Quantity should be greater than 0");
     }
 }
 
@@ -28,11 +28,11 @@ public class AddItemIntoBasketHandler(BasketDbContext dbContext)
         if (shoppingCart is null) throw new BasketNotFoundException(command.UserName);
 
         shoppingCart.AddItem(
-            command.ShoopingCartItem.ProductId,
-            command.ShoopingCartItem.Quantity,
-            command.ShoopingCartItem.Color,
-            command.ShoopingCartItem.Price,
-            command.ShoopingCartItem.ProductName);
+            command.ShoppingCartItem.ProductId,
+            command.ShoppingCartItem.Quantity,
+            command.ShoppingCartItem.Color,
+            command.ShoppingCartItem.Price,
+            command.ShoppingCartItem.ProductName);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

@@ -2,15 +2,29 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddCarterWithAssemblies(typeof(CatalogModule).Assembly);
 
 // Add services to the container.
+
+//common services: carter, mediatr, fluentvalidation
+var catalogAssembly = typeof(CatalogModule).Assembly;
+var basketAssembly = typeof(BasketModule).Assembly;
+var orderingAssembly = typeof(OrderingModule).Assembly;
+
+builder.Services
+    .AddCarterWithAssemblies(catalogAssembly, basketAssembly, orderingAssembly);
+
+
+builder.Services
+    .AddMediatRWithAssemblies(catalogAssembly, basketAssembly, orderingAssembly);
+
+//module services: catalog, basket, ordering
 builder.Services
     .AddCatalogModule(builder.Configuration)
     .AddBasketModule(builder.Configuration)
     .AddOrderingModule(builder.Configuration);
 
-builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+builder.Services
+    .AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
 
