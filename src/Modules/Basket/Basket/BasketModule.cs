@@ -6,6 +6,10 @@ public static class BasketModule
         IConfiguration configuration)
     {
         // Add services to the container.
+
+        services.AddScoped<IBasketRepository, BasketRepository>();
+        services.Decorate<IBasketRepository, CachedBasketRepository>();
+
         var connectionString = configuration.GetConnectionString("Database");
 
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
