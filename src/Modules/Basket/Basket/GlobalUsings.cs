@@ -10,7 +10,7 @@ global using Shared.Data.Interceptors;
 global using Basket.Basket.Dtos;
 global using Basket.Basket.Models;
 global using FluentValidation;
-global using Shared.CQRS;
+global using Shared.Contracts.CQRS;
 global using Basket.Basket.Exeptions;
 global using Mapster;
 global using Carter;
