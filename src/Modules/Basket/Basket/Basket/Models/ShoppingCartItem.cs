@@ -28,10 +28,18 @@ public class ShoppingCartItem : Entity<Guid>
         ProductName = productName;
     }
 
+    public void UpdatePrice(decimal newPrice)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(newPrice);
+        Price = newPrice;
+    }
+
     public Guid ShoppingCartId { get; private set; }
     public Guid ProductId { get; private set; }
     public int Quantity { get; internal set; }
     public string Color { get; private set; }
     public decimal Price { get; private set; }
     public string ProductName { get; private set; }
+
+
 }
