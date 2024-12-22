@@ -13,6 +13,12 @@ services:
     volumes:
       - postgres_eshopdb:/var/lib/postgresql/data/
 
+  distributedcache:
+    container_name: distributedcache
+    restart: always
+    ports:
+      - "6379:6379"
+
   seq:
     container_name: seq
     environment:
@@ -21,12 +27,6 @@ services:
     ports:
       - "5341:5341"
       - "9091:80"
-
-  distributedcache:
-    container_name: distributedcache
-    restart: always
-    ports:
-      - "6379:6379"
 
   messagebus:
     container_name: messagebus
@@ -38,3 +38,18 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  identity:
+    container_name: identity
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://eshopdb/EShopDb?currentSchema=identity
+      - KC_DB_USERNAME=postgres
+      - KC_DB_PASSWORD=postgres
+    restart: always
+    ports:
+      - "9090:8080"
+    command:
+      - start-dev

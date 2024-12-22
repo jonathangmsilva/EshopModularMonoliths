@@ -16,6 +16,7 @@ public class GetBasketEndPoint : ICarterModule
             }).Produces<GetBasketResponse>()
             .Produces(StatusCodes.Status400BadRequest)
             .WithSummary("Get the current basket for a user")
-            .WithDescription("Returns the current basket for a user");
+            .WithDescription("Returns the current basket for a user")
+            .RequireAuthorization();
     }
 }
