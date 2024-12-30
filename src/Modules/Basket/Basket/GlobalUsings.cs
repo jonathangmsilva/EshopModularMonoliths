@@ -18,3 +18,5 @@ global using MediatR;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Routing;
 global using Basket.Data.Repositories;
+global using MassTransit;
+global using Shared.Messaging.Events;
