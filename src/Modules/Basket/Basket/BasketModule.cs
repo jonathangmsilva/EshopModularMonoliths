@@ -1,4 +1,6 @@
-﻿namespace Basket;
+﻿using Basket.Data.Processors;
+
+namespace Basket;
 
 public static class BasketModule
 {
@@ -21,6 +23,7 @@ public static class BasketModule
             options.UseNpgsql(connectionString);
         });
 
+        services.AddHostedService<OutboxProcessor>();
         return services;
     }
 

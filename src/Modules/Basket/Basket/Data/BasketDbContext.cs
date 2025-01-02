@@ -10,6 +10,8 @@ public class BasketDbContext : DbContext
 
     public DbSet<ShoppingCart> ShoppingCarts { get; set; }
     public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+    public DbSet<OutboxMessage> OutboxMessages { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
